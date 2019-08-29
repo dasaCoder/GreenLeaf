@@ -11,12 +11,24 @@ app = Flask(__name__)
 def hello():
     return "Hello World!"
 
-@app.route("/recommentdations")
-def getRecommendations():
-    user_qu = [1,2,2,2,1,3,2,1,2,1] # feature vector for The Post
-    recommended_cat = recommendedCategories(user_query=user_qu, k_recommendations=5)
-    print(json.dumps(recommended_cat))
-    return json.dumps(recommended_cat)
+@app.route("/recommentdations/<k_recommendations>", methods = ['POST'])
+def getRecommendations(k_recommendations):
+    if request.method == 'POST':
+        data = request.form
+        
+        user_qu = [data.get('1'),
+                   data.get('2'),
+                   data.get('3'),
+                   data.get('4'),
+                   data.get('5'),
+                   data.get('6'),
+                   data.get('7'),
+                   data.get('8'),
+                   data.get('9'),
+                   data.get('10')] # feature vector for The Post
+        recommended_cat = recommendedCategories(user_query=user_qu, k_recommendations=5)
+        print(json.dumps(recommended_cat))
+        return json.dumps(recommended_cat)
 
 ## Return recomentations
 def recommendedCategories(user_query,k_recommendations):
