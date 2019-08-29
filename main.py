@@ -1,4 +1,6 @@
 from flask import Flask
+from flask import request
+
 from collections import Counter
 import math
 import pandas as pd
@@ -15,24 +17,26 @@ def hello():
 def getRecommendations(k_recommendations):
     if request.method == 'POST':
         data = request.form
-        
-        user_qu = [data.get('1'),
-                   data.get('2'),
-                   data.get('3'),
-                   data.get('4'),
-                   data.get('5'),
-                   data.get('6'),
-                   data.get('7'),
-                   data.get('8'),
-                   data.get('9'),
-                   data.get('10')] # feature vector for The Post
+        #print(str(data.get('1')))
+
+        user_qu = [float(data.get('1')),
+                   float(data.get('2')),
+                   float(data.get('3')),
+                   float(data.get('4')),
+                   float(data.get('5')),
+                   float(data.get('6')),
+                   float(data.get('7')),
+                   float(data.get('8')),
+                   float(data.get('9')),
+                   float(data.get('10'))] # feature vector for The Post
         recommended_cat = recommendedCategories(user_query=user_qu, k_recommendations=5)
-        print(json.dumps(recommended_cat))
+        #print(json.dumps(recommended_cat))
+
         return json.dumps(recommended_cat)
 
 ## Return recomentations
 def recommendedCategories(user_query,k_recommendations):
-    df = pd.read_csv(r"C:\Users\ACER\Desktop\dulitha_formated.csv")
+    df = pd.read_csv("dataset/dulitha.csv")
     
     # seperate multi valued food type
     df['foodType'] = df['foodType'].str.split(',')
@@ -64,7 +68,8 @@ def recommendedCategories(user_query,k_recommendations):
     ## get category name from results
     cat_recommendations = []
     for row in recommendation_indices:
-        cat_recommendations.append(row[1])
+        #print(cat_recommendation_data[row[1]][8])
+        cat_recommendations.append(int(cat_recommendation_data[row[1]][8]))
 
     return cat_recommendations
 
