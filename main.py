@@ -3,6 +3,7 @@ from collections import Counter
 import math
 import pandas as pd
 from sklearn import preprocessing
+import json
 
 app = Flask(__name__)
 
@@ -10,9 +11,13 @@ app = Flask(__name__)
 def hello():
     return "Hello World!"
 
-
-if __name__ == '__main__':
-    app.run(debug=True)
+@app.route("/recommentdations")
+def getRecommendations():
+    # user_qu = [1,2,2,2,1,3,2,1,2,1] # feature vector for The Post
+    # recommended_cat = recommendedCategories(user_query=user_qu, k_recommendations=5)
+    # print(json.dumps(recommended_cat))
+    # return json.dumps(recommended_cat)
+    return json.dumps([1,2,3])
 
 ## Return recomentations
 def recommendedCategories(user_query,k_recommendations):
@@ -92,3 +97,5 @@ def euclidean_distance(point1, point2):
     return math.sqrt(sum_squared_distance)
 
 
+if __name__ == '__main__':
+    app.run(debug=True)
